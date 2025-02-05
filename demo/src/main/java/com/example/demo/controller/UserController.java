@@ -40,4 +40,9 @@ public class UserController {
     public void deleteUser(@PathVariable Long id) {
         userRepository.deleteById(id);
     }
+
+    @GetMapping("/search")
+    public Optional<User> getUserByEmail(@RequestParam String email) {
+        return userRepository.findByEmail(email);
+    }
 }

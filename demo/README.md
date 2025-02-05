@@ -149,6 +149,54 @@ spring:
 
 `JpaRepository`를 활용하면 데이터베이스 접근이 간편합니다.
 
+### **6.4. H2 데이터베이스 실행 및 설정**
+
+Spring Boot는 `H2 Database` 의존성을 추가하면 별도 설치 없이 내장(in-memory) 데이터베이스를 사용할 수 있습니다.
+
+#### **6.4.1. H2 웹 콘솔(Web UI) 활성화**
+
+H2의 웹 UI를 사용하려면 `application.yml`에서 다음 설정을 추가해야 합니다.
+
+```yaml
+spring:
+  h2:
+    console:
+      enabled: true # H2 웹 콘솔 활성화
+      path: /h2-console # 접속 경로 설정
+```
+
+#### **6.4.2. H2 콘솔 접속 방법**
+
+애플리케이션을 실행한 후 브라우저에서 아래 URL로 접속하면 H2 콘솔을 사용할 수 있습니다.
+
+```
+http://localhost:8080/h2-console
+```
+
+##### **H2 콘솔 접속 정보**
+
+- **JDBC URL**: `jdbc:h2:mem:testdb`
+- **Username**: `sa`
+- **Password**: 없음 (`""`)
+
+---
+
+### **6.5. H2 데이터 유지 (파일 모드 설정)**
+
+H2는 기본적으로 **메모리 모드(`mem:testdb`)**를 사용하기 때문에 **애플리케이션 종료 시 데이터가 사라집니다**.  
+데이터를 유지하려면 **파일 모드**로 변경해야 합니다.
+
+```yaml
+spring:
+  datasource:
+    url: jdbc:h2:file:./data/demo
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: ''
+```
+
+이렇게 설정하면 `./data/demo.mv.db` 파일이 생성되며, 애플리케이션을 재시작해도 데이터가 유지됩니다.
+
 ---
 
 ## **7. 트랜잭션 관리**
@@ -217,3 +265,47 @@ curl -X DELETE "http://localhost:8080/users/1"
 5. **Redis를 활용한 캐싱과 세션 관리**
 
 ---
+
+---
+
+### **10.1. Spring Boot DevTools 자동 재시작 설정**
+
+Spring Boot DevTools를 사용하면 **소스 코드 변경 시 애플리케이션이 자동으로 다시 시작**됩니다.  
+그러나 기본적으로 `bootRun` 실행 시 자동 재시작이 활성화되지 않을 수도 있으므로 아래 설정을 확인해야 합니다.
+
+#### **7.1.1. DevTools 설정 확인**
+
+`application.yml`에서 DevTools 자동 재시작이 활성화되어 있는지 확인합니다.
+
+```yaml
+spring:
+  devtools:
+    restart:
+      enabled: true
+```
+
+#### **7.1.2. Gradle `bootRun` 실행 시 DevTools 적용**
+
+`build.gradle` 파일에서 `bootRun` 실행 시 DevTools가 활성화되도록 추가 설정을 합니다.
+
+```gradle
+bootRun {
+    systemProperty "spring.devtools.restart.enabled", "true"
+}
+```
+
+#### **7.1.3. 자동 빌드 및 재시작 활성화 (IntelliJ IDEA 설정)**
+
+IntelliJ IDEA에서 **자동 빌드** 및 **DevTools 자동 재시작**이 활성화되어 있어야 합니다.
+
+1. **File → Settings (Ctrl + Alt + S) → Build, Execution, Deployment → Compiler**
+
+   - ✅ `Build project automatically` 활성화
+
+2. **Advanced Settings (검색창에서 `Advanced` 입력)**
+
+   - ✅ `Allow auto-make to start even if developed application is currently running` 체크
+
+3. **Shift + Ctrl + A → `Registry` 검색 → `compiler.automake.allow.when.app.running` 활성화**
+
+이제 소스 코드를 변경하면 Spring Boot DevTools가 자동으로 애플리케이션을 재시작합니다. 🚀
