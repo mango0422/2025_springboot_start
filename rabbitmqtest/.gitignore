@@ -1,0 +1,56 @@
+HELP.md
+.gradle
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+bin/
+!**/src/main/**/bin/
+!**/src/test/**/bin/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+out/
+!**/src/main/**/out/
+!**/src/test/**/out/
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+### docker ###
+# docker-data/rabbitmq/data
+# docker-data/rabbitmq/log
+
+# 모든 서브 디렉토리 무시
+!docker-data/redis
+!docker-data/rabbitmq
+!docker-data/mariadb
+
+# 모든 서브 디렉터리 하위 파일 및 폴더 예외
+docker-data/redis/**
+docker-data/rabbitmq/**
+docker-data/mariadb/**
+
+# 예외: 설정 파일은 Git에 포함
+!docker-data/**/*.conf
+!docker-data/**/*.cnf
+!docker-data/rabbitmq/enabled_plugins

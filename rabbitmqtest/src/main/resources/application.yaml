@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: rabbitmqtest
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: mango
+    password: mango
+
+rabbitmq:
+  queue:
+    name: sample-queue
+  exchange:
+    name: sample-exchange
+  routing:
+    key: test
